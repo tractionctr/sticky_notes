@@ -1,9 +1,12 @@
+"""Unit tests for notes app functionality."""
+
 from django.test import TestCase
 from django.urls import reverse
 from .models import Note
 
 
 class NoteTests(TestCase):
+    """Tests for Note creation, update, delete, and list views."""
     def setUp(self):
         self.note = Note.objects.create(
             title="Test Note",
