@@ -71,6 +71,11 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'sticky_notes.wsgi.application'
 
+CSRF_TRUSTED_ORIGINS = [
+    "https://localhost:8000",
+    "http://localhost:8000",
+    "https://*.github.dev",
+]
 
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
