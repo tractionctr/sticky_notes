@@ -1,12 +1,14 @@
 from django.test import TestCase
-from .models import Note
 from django.urls import reverse
+from .models import Note
 
 
 class NoteTests(TestCase):
     def setUp(self):
-        self.note = Note.objects.create(title="Test Note",
-                                        content="Test content")
+        self.note = Note.objects.create(
+            title="Test Note",
+            content="Test content"
+        )
 
     def test_note_creation(self):
         self.assertEqual(self.note.title, "Test Note")
@@ -22,19 +24,21 @@ class NoteTests(TestCase):
             'title': 'New Note',
             'content': 'New content'
         })
-        self.assertEqual(response.status_code, 302)  # redirect after success
+        self.assertEqual(response.status_code, 302)
         self.assertEqual(Note.objects.last().title, 'New Note')
 
     def test_note_update_view(self):
-        response = self.client.post(reverse('note_update',
-                                            args=[self.note.id]), {
-            'title': 'Updated',
-            'content': 'Updated content'
-        })
+        response = self.client.post(
+            reverse('note_update', args=[self.note.id]),
+            {'title': 'Updated', 'content': 'Updated content'}
+        )
+        self.assertEqual(response.status_code, 302)
         self.note.refresh_from_db()
         self.assertEqual(self.note.title, 'Updated')
 
     def test_note_delete_view(self):
-        response = self.client.post(reverse('note_delete',
-                                            args=[self.note.id]))
+        response = self.client.post(
+            reverse('note_delete', args=[self.note.id])
+        )
+        self.assertEqual(response.status_code, 302)
         self.assertFalse(Note.objects.filter(id=self.note.id).exists())
